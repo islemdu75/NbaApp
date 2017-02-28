@@ -24,6 +24,9 @@ router.get('/teamID/players', function(req, res, next) {
 router.get('/player', players.onePlayer);
 
 /* GET home page : Retourne une équipe */
+router.get('/teams', teams.allTeams);
+
+/* GET home page : Retourne une équipe */
 router.get('/team', teams.oneTeam);
 
 module.exports = router;

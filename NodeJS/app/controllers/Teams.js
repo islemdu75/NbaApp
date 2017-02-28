@@ -1,14 +1,22 @@
 /**
  * Created by Quentin on 27/02/2017.
  */
+/*Récupérer : teamName, w, l, confRank, teamConference*/
 var NBA = require("nba");
 var data = {};
 var data2 = {};
+
 var Teams = {
+    allTeams: function (req, res) {
+        NBA.stats.homepageV2({LeagueID: 00}).then(function (result) {
+            alert(result);
+            res.send('Salut ça fonctionne !');
+        });
+    },
     oneTeam: function (req, res) {
         var player = '';
-        var curent_player = '';
-        var current_player_infos = '';
+        var curent_player = {};
+        var current_player_infos = {};
 
         switch(player) {
 
@@ -32,7 +40,7 @@ var Teams = {
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
 
-            case 'Dwayne Wade' :
+            case 'Dwyane Wade' :
                 curent_player = NBA.findPlayer('Dwayne Wade');
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
@@ -67,8 +75,8 @@ var Teams = {
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
 
-            case 'Paul Georges' :
-                curent_player = NBA.findPlayer('Paul Georges');
+            case 'Paul George' :
+                curent_player = NBA.findPlayer('Paul George');
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
 
@@ -156,20 +164,30 @@ var Teams = {
                 curent_player = NBA.findPlayer('Rudy Gobert');
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
+
+            default:
+                curent_player = NBA.findPlayer('Klay Thompson');
+                current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
         }
-
-
         current_player_infos.then(function (result) {
             data = result;
             var teamInfos = NBA.stats.teamInfoCommon({TeamID : data['commonPlayerInfo'][0].teamId});
-            teamInfos.then(function (result) {
-                data2 = result;
-                data2 = result;
-                var name = data2['teamInfoCommon'][0].teamCity +" "+ data2['teamInfoCommon'][0].teamName;
-                console.log(name);
-                //console.log(result);
-                res.render('teams', {teams : name});
-                console.log(result);
+            teamInfos.then(function (result2) {
+                data2 = result2;
+                console.log(result2);
+                var teamName = data2['teamInfoCommon'][0].teamCity +" "+ data2['teamInfoCommon'][0].teamName;
+                var wins = data2['teamInfoCommon'][0].w;
+                var losses = data2['teamInfoCommon'][0].l;
+                var confRank = data2['teamInfoCommon'][0].confRank;
+                var teamConference = data2['teamInfoCommon'][0].teamConference;
+                //console.log(result2);
+                console.log(teamName);
+                console.log("Wins: "+wins);
+                console.log("Losses: "+losses);
+                console.log("Conference rank: "+confRank);
+                console.log("Team conference: "+teamConference);
+                res.render('teams', {team : teamName, wins : wins, losses : losses, confRank : confRank, teamConference : teamConference});
+
             });
         });
 
