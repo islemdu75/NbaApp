@@ -188,6 +188,15 @@ var Teams = {
         }
         current_player_infos.then(function (result) {
             data = result;
+            var firstname = data['commonPlayerInfo'][0].firstName;
+            var lastname = data['commonPlayerInfo'][0].lastName;
+            var jersey = data['commonPlayerInfo'][0].jersey;
+            var position = data['commonPlayerInfo'][0].position;
+            var pts = data['playerHeadlineStats'][0].pts;
+            var assists = data['playerHeadlineStats'][0].ast;
+            var rebounds = data['playerHeadlineStats'][0].reb;
+            var pie = data['playerHeadlineStats'][0].pie;
+
             var teamInfos = NBA.stats.teamInfoCommon({TeamID : data['commonPlayerInfo'][0].teamId});
             teamInfos.then(function (result2) {
                 data2 = result2;
@@ -197,13 +206,36 @@ var Teams = {
                 var losses = data2['teamInfoCommon'][0].l;
                 var confRank = data2['teamInfoCommon'][0].confRank;
                 var teamConference = data2['teamInfoCommon'][0].teamConference;
+
+
                 //console.log(result2);
                 console.log(teamName);
                 console.log("Wins: "+wins);
                 console.log("Losses: "+losses);
                 console.log("Conference rank: "+confRank);
                 console.log("Team conference: "+teamConference);
-                res.render('team', {team : teamName, wins : wins, losses : losses, confRank : confRank, teamConference : teamConference});
+                //res.render('team', {team : teamName, wins : wins, losses : losses, confRank : confRank, teamConference : teamConference});
+                var jsonData = {
+                    "playerStats": {
+                        "firstname": firstname,
+                        "lastname": lastname,
+                        "jersey": jersey,
+                        "position": position,
+                        "pts": pts,
+                        "assists": assists,
+                        "rebounds": rebounds,
+                        "pie": pie
+                    },
+                    "teamStats": {
+                        "teamName": teamName,
+                        "teamConference": teamConference,
+                        "confRank": confRank,
+                        "wins": wins,
+                        "losses": losses
+
+                    }
+                }
+                res.send(jsonData);
 
             });
         });

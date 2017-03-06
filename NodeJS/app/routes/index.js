@@ -32,6 +32,6 @@ router.get('/player/:id', players.onePlayer);
 router.get('/teams', teams.allTeams);
 
 /* GET home page : Retourne une équipe */
-router.get('/team', teams.oneTeam);
+router.get('/team/:id', teams.oneTeam);
 
 module.exports = router;

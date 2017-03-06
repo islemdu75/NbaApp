@@ -24,6 +24,7 @@ var Players = {
     allFranchisePlayers: function (req, res) {
         var playersTab = [];
         var jsonPlayers = {};
+        var id = 0;
         var franchisePlayersTab = ['Paul Millsap', 'Isaiah Thomas', 'Brook Lopez',
             'Nicolas Batum', 'Dwyane Wade', 'Lebron James', 'Dirk Nowitzki',
             'Nikola Jokic', 'Andre Drummond', 'Klay Thompson', 'James Harden',
@@ -34,12 +35,20 @@ var Players = {
             'DeMar DeRozan', 'Rudy Gobert', 'John Wall'];
 
         for (var i=0; i < franchisePlayersTab.length; i++){
-            playersTab[i] = jsonPlayers;
-            jsonPlayers = {"index" : i, "player" : franchisePlayersTab[i]};
-            console.log(jsonPlayers);
-            console.log(playersTab);
+            playersTab[i] = franchisePlayersTab[i];
+            //jsonPlayers = {"index" : i, "player" : franchisePlayersTab[i]};
+            //console.log(jsonPlayers);
+            //console.log(playersTab);
+            id = i;
         }
-        res.render('franchisePlayers', {franchisePlayers: playersTab})
+        for (var j=0; j < playersTab.length; j++){
+            jsonPlayers = {"id" : j, "name" : playersTab[j]};
+        }
+        //console.log(JSON.stringify(playersTab));
+        console.log(jsonPlayers);
+        //res.send('{"players":'+JSON.stringify(playersTab)+'}');
+        res.send('{"players": ['+JSON.stringify(jsonPlayers)+']}');
+        //res.render('franchisePlayers', {franchisePlayers: playersTab});
     },
     onePlayer: function (req, res) {
         var player = {};
@@ -87,8 +96,9 @@ var Players = {
             console.log("assists: "+assists);
             console.log("rebounds: "+rebounds);
             console.log("pie: "+pie);
-            res.render('player', {player : player.fullName, name : name, firstname : firstname, lastname : lastname, jersey : jersey, position : position,
-                pts : pts, assists : assists, rebounds : rebounds, pie : pie});
+            /*res.render('player'+ req.params.id, {player : player.fullName, name : name, firstname : firstname, lastname : lastname, jersey : jersey, position : position,
+                pts : pts, assists : assists, rebounds : rebounds, pie : pie});*/
+            res.send();
         });
     }
 }
