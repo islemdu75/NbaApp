@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">NbaApp</string>
+    <string name="app_name">NBA</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_player">Franchise player</string>
+    <string name="btn_description">Voir les franchises players</string>
+    <string name="btn_stats">Stats</string>
 </resources>
