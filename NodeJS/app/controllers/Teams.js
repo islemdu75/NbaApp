@@ -196,7 +196,6 @@ var Teams = {
             var assists = data['playerHeadlineStats'][0].ast;
             var rebounds = data['playerHeadlineStats'][0].reb;
             var pie = data['playerHeadlineStats'][0].pie;
-
             var teamInfos = NBA.stats.teamInfoCommon({TeamID : data['commonPlayerInfo'][0].teamId});
             teamInfos.then(function (result2) {
                 data2 = result2;
@@ -206,8 +205,6 @@ var Teams = {
                 var losses = data2['teamInfoCommon'][0].l;
                 var confRank = data2['teamInfoCommon'][0].confRank;
                 var teamConference = data2['teamInfoCommon'][0].teamConference;
-
-
                 //console.log(result2);
                 console.log(teamName);
                 console.log("Wins: "+wins);

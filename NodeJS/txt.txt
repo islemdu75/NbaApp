@@ -11,3 +11,9 @@ test.catch(function (error) {
 }).then(function (result) {
     console.log(result);
 });*/
+
+
+14h30 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+A faire : POWERPOINT !!!!!!!!!!!!!!
+
+Remettre les .rar ou .zip avec toutes les sources du code (author.tkt qui contient le nom des membres)
