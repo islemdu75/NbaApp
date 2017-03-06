@@ -1,13 +1,18 @@
 package com.example.aaitlhadj.nba;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class FranchisePlayer extends AppCompatActivity {
+
+    public static final String STATS = "com.example.aaitlhadj.NBA.franchiseplayer.STATS";
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -50,5 +55,10 @@ public class FranchisePlayer extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void GoStats(View view){
+        Intent newIntent = new Intent(this, StatsPlayer.class);
+        startActivity(newIntent);
     }
 }
