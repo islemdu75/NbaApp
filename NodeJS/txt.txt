@@ -1,0 +1,13 @@
+//var NBA = require("nba");
+/*var test = NBA.stats.homepageV2({StatType: "Traditional", PlayerOrTeam: "Player", GameScope: "Season", PlayerScope: "All Players", Season: "2016-17"});
+test.catch(function (error) {
+    console.log(error);
+}).then(function (result) {
+    console.log(result);
+});*/
+/*var test = NBA.stats.assistTracker({});
+test.catch(function (error) {
+    console.log(error);
+}).then(function (result) {
+    console.log(result);
+});*/

@@ -8,10 +8,22 @@ var data2 = {};
 
 var Teams = {
     allTeams: function (req, res) {
-        NBA.stats.homepageV2({LeagueID: 00}).then(function (result) {
-            alert(result);
-            res.send('Salut ça fonctionne !');
+        var teamsTab = [];
+        /*NBA.stats.playerStats({LeagueID: "00", PlayerOrTeam: "Team", GameScope: "Yesterday", StatType: "Traditional", PlayerScope: "All Players", Conference: "West"}).then(function (result) {
+            for (var i=0; i < result['leagueDashPlayerStats'].length; i++){
+                //console.log(result['leagueDashPlayerStats'][i].playerName);
+                teamsTab[i] = result['leagueDashPlayerStats'][i].teamAbbreviation;
+                //console.log(playersTab);
+                console.log(result['leagueDashPlayerStats'][i].teamAbbreviation);
+            }
+            //console.log("New tab: "+playersTab);
+            res.render('teams', {teams:  teamsTab})*/
+        NBA.stats.homepageV2({SeasonType: "Regular Season", LeagueID: "00", PlayerOrTeam: "Team", GameScope: "Yesterday", StatType: "Traditional", PlayerScope: "All Players"}).then(function (result) {
+            console.log(result['homePageStat1']);
+        }).catch(function (error) {
+            console.log(error);
         });
+
     },
     oneTeam: function (req, res) {
         var player = '';
@@ -101,7 +113,7 @@ var Teams = {
                 break;
 
             case 'Giannis Antetokounmpo' :
-                curent_player = NBA.findPlayer('Paul Millsap');
+                curent_player = NBA.findPlayer('Giannis Antetokounmpo');
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
 
@@ -165,6 +177,11 @@ var Teams = {
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
                 break;
 
+            case 'John Wall' :
+                curent_player = NBA.findPlayer('John Wall');
+                current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
+                break;
+
             default:
                 curent_player = NBA.findPlayer('Klay Thompson');
                 current_player_infos = NBA.stats.playerInfo({PlayerID : curent_player.playerId});
@@ -186,7 +203,7 @@ var Teams = {
                 console.log("Losses: "+losses);
                 console.log("Conference rank: "+confRank);
                 console.log("Team conference: "+teamConference);
-                res.render('teams', {team : teamName, wins : wins, losses : losses, confRank : confRank, teamConference : teamConference});
+                res.render('team', {team : teamName, wins : wins, losses : losses, confRank : confRank, teamConference : teamConference});
 
             });
         });

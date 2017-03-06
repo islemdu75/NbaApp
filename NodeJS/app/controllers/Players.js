@@ -7,13 +7,62 @@ var data = {};
 
 var Players = {
     allPlayers: function (req, res) {
+        var playersTab = [];
+        NBA.stats.playerStats({LeagueID: "00", PlayerOrTeam: "Team", GameScope: "Yesterday", StatType: "Traditional", PlayerScope: "All Players"}).then(function (result) {
+            for (var i=0; i < result['leagueDashPlayerStats'].length; i++){
+                //console.log(result['leagueDashPlayerStats'][i].playerName);
+                playersTab[i] = result['leagueDashPlayerStats'][i].playerName;
+                //console.log(playersTab);
+                console.log(result['leagueDashPlayerStats'][i]);
+            }
+            //console.log("New tab: "+playersTab);
+            res.render('players', {players:  playersTab});
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
+    allFranchisePlayers: function (req, res) {
+        var playersTab = [];
+        var jsonPlayers = {};
+        var franchisePlayersTab = ['Paul Millsap', 'Isaiah Thomas', 'Brook Lopez',
+            'Nicolas Batum', 'Dwyane Wade', 'Lebron James', 'Dirk Nowitzki',
+            'Nikola Jokic', 'Andre Drummond', 'Klay Thompson', 'James Harden',
+            'Paul George', 'Chris Paul', 'Jordan Clarkson', 'Mike Conley',
+            'Hassan Whiteside', 'Giannis Antetokounmpo', 'Karl-Anthony Towns', 'Anthony Davis',
+            'Carmelo Anthony', 'Russell Westbrook', 'Aaron Gordon', 'Joel Embiid',
+            'Tyson Chandler', 'Damian Lillard', 'Tyreke Evans', 'Kawhi Leonard',
+            'DeMar DeRozan', 'Rudy Gobert', 'John Wall'];
 
+        for (var i=0; i < franchisePlayersTab.length; i++){
+            playersTab[i] = jsonPlayers;
+            jsonPlayers = {"index" : i, "player" : franchisePlayersTab[i]};
+            console.log(jsonPlayers);
+            console.log(playersTab);
+        }
+        res.render('franchisePlayers', {franchisePlayers: playersTab})
     },
     onePlayer: function (req, res) {
-        var curry = NBA.findPlayer('DeMar DeRozan');
-        var curryInfos = NBA.stats.playerInfo({PlayerID : curry.playerId});
+        var player = {};
+        var playerInfos = {};
+        var franchisePlayersTab = ['Paul Millsap', 'Isaiah Thomas', 'Brook Lopez',
+            'Nicolas Batum', 'Dwyane Wade', 'Lebron James', 'Dirk Nowitzki',
+            'Nikola Jokic', 'Andre Drummond', 'Klay Thompson', 'James Harden',
+            'Paul George', 'Chris Paul', 'Jordan Clarkson', 'Mike Conley',
+            'Hassan Whiteside', 'Giannis Antetokounmpo', 'Karl-Anthony Towns', 'Anthony Davis',
+            'Carmelo Anthony', 'Russell Westbrook', 'Aaron Gordon', 'Joel Embiid',
+            'Tyson Chandler', 'Damian Lillard', 'Tyreke Evans', 'Kawhi Leonard',
+            'DeMar DeRozan', 'Rudy Gobert', 'John Wall'];
+        var jsonPlayers = {};
 
-        curryInfos.then(function (result) {
+        for (var i=0; i < franchisePlayersTab.length; i++){
+            player = NBA.findPlayer(franchisePlayersTab[i]);
+            playerInfos = NBA.stats.playerInfo({PlayerID : player.playerId});
+            req.params.id = i;
+            jsonPlayers = {"index" : i, "player" : franchisePlayersTab[i]};
+            console.log(jsonPlayers);
+        }
+
+        playerInfos.then(function (result) {
             data = result;
             var city = data['commonPlayerInfo'][0].teamCity;
             var code = data['commonPlayerInfo'][0].teamCode;
@@ -38,7 +87,7 @@ var Players = {
             console.log("assists: "+assists);
             console.log("rebounds: "+rebounds);
             console.log("pie: "+pie);
-            res.render('player', {player : curry.fullName, name : name, firstname : firstname, lastname : lastname, jersey : jersey, position : position,
+            res.render('player', {player : player.fullName, name : name, firstname : firstname, lastname : lastname, jersey : jersey, position : position,
                 pts : pts, assists : assists, rebounds : rebounds, pie : pie});
         });
     }

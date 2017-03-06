@@ -19,11 +19,16 @@ router.get('/teamID/players', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
+/* GET home page : Retourne tous les joueurs de la nba */
+router.get('/players', players.allPlayers);
+
+/* GET home page : Retourne toutes les stars de chaque équipe */
+router.get('/franchisePlayers', players.allFranchisePlayers);
 
 /* GET home page : Retourne un joueur d'une équipe */
-router.get('/player', players.onePlayer);
+router.get('/player/:id', players.onePlayer);
 
-/* GET home page : Retourne une équipe */
+/* GET home page : Retourne toutes les équipes */
 router.get('/teams', teams.allTeams);
 
 /* GET home page : Retourne une équipe */
